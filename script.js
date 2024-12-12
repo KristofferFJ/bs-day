@@ -1,9 +1,12 @@
 document.getElementById("year").defaultValue = new Date().getFullYear();
 document.getElementById("month").defaultValue = new Date().getMonth() + 1;
+document.getElementById("nth").defaultValue = 9;
 
-function getNinthLastBankDay() {
+function getNthLastBankDay() {
     let year = document.getElementById("year").value
     let month = document.getElementById("month").value
+    let nth = Number(document.getElementById("nth").value)
+    console.log(year, month, nth)
     let eligibleDay = new Date()
     eligibleDay.setFullYear(year, month, 1)
     eligibleDay.setDate(eligibleDay.getDate() - 1)
@@ -11,10 +14,11 @@ function getNinthLastBankDay() {
     let bankHolidays = getBankHolidays(year)
 
     while (true) {
-        if(eligibleDay.getDay() !== 0 && eligibleDay.getDay() !== 6 && !isBankHoliday(eligibleDay, bankHolidays)) {
+        if (eligibleDay.getDay() !== 0 && eligibleDay.getDay() !== 6 && !isBankHoliday(eligibleDay, bankHolidays)) {
             bankDays += 1
         }
-        if(bankDays === 9) break
+        console.log(bankDays, nth)
+        if (bankDays === nth) break
         eligibleDay.setDate(eligibleDay.getDate() - 1)
     }
 
@@ -22,7 +26,7 @@ function getNinthLastBankDay() {
 }
 
 function isBankHoliday(eligibleDay, bankHolidays) {
-    for(let bankHoliday of bankHolidays) {
+    for (let bankHoliday of bankHolidays) {
         if (formatDate(bankHoliday) === formatDate(eligibleDay)) return true
     }
     return false
